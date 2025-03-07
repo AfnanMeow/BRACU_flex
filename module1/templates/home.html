@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+    <h3>{{ user.email }}</h3>
+    <p>Age: {{ user.age }}</p>
+    <p>Watching Hour: <span id="watchTime">{{ user.watching_hour }}</span> min</p>
+    <p>IP Address: {{ user.ip_address }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <!-- Video Player -->
+    <h2>Video Gallery</h2>
+    {% for video in videos %}
+    <div class="video-container">
+        
+        <video id="videoPlayer" width="800" controls>
+            <source src="{{ video.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h3>{{ video.title }}</h3>
+        
+    </div>
+    
+
+    <!-- Video Controls -->
+    <div class="controls">
+        <button onclick="playPause()">Play/Pause</button>
+        <button onclick="skip(-10)">⏪ Back 10s</button>
+        <button onclick="skip(10)">⏩ Forward 10s</button>
+        <button onclick="nextVideo()">Next Video</button>
+    </div>
+    {% empty %}
+    <p>No videos found.</p>
+    {% endfor %}
+    
+    
+
+
+    <!-- Hidden Input to Track Watch Time -->
+    <input type="hidden" id="userWatchTime" value="{{ user.watching_hour }}">
+    
+    <script src="{% static 'home/js/player.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'home/js/player.js' %}"></script>
+<script>
+    console.log("JavaScript is loaded correctly!");
+</script>
+
