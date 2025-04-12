@@ -36,9 +36,12 @@ function skip(seconds) {
 function startTracking() {
     stopTracking();  // Prevent duplicate intervals
     watchTracker = setInterval(() => {
-        watchTime += 1; // Track every second
+        watchTime += 1;
         document.getElementById("watchTime").innerText = Math.floor(watchTime / 60);
         sendWatchTimeToServer();
+        if (activeVideo) {
+            sendVideoProgress(activeVideo);
+        }
     }, 1000);
 }
 
@@ -65,7 +68,24 @@ function sendWatchTimeToServer() {
         console.error("❌ Error sending watch time:", error);
     });
 }
+function sendVideoProgress(video) {
+    const progress = video.currentTime;
+    const videoId = video.getAttribute("data-id");
 
+    fetch('/update-video-progress/', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+        },
+        body: JSON.stringify({
+            video_id: videoId,
+            progress: progress
+        })
+    }).then(res => res.json())
+      .then(data => console.log("🎯 Progress saved:", data))
+      .catch(err => console.error("❌ Error saving progress", err));
+}
 function getCSRFToken() {
     return document.cookie.split("; ")
         .find(row => row.startsWith("csrftoken"))

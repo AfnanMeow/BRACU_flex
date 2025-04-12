@@ -21,3 +21,15 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ FIXED
     watching_hour = models.IntegerField(default=0)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+class WatchProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    progress = models.FloatField(default=0.0)  # in seconds
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'video')  # prevent duplicate entries per video/user pair
+
+    def __str__(self):
+        return f"{self.user.username} - {self.video.title} - {self.progress}s"
