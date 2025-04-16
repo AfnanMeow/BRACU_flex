@@ -1,0 +1,411 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Watch TV Shows Online, Watch Movies Online</title>
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/styles.css' %}">
+    <link rel="icon" href="{% static 'netflix_clone/images/favicon.ico' %}" type="image/x-icon">
+</head>
+<body class="browse-page">
+    <header class="header header-browse">
+        <div class="header-container">
+            <div class="primary-navigation">
+                <div class="logo">
+                    <a href="browse.html">
+                        <img src="{% static 'netflix_clone/images/netflix-logo.svg' %}" alt="Netflix" style="height: 80px;">
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="#">TV Shows</a></li>
+                        <li><a href="#">Movies</a></li>
+                        <li><a href="#">New & Popular</a></li>
+                        <li><a href="#">My List</a></li>
+                        <li><a href="{% url 'my_uploads' %}">My Uploads</a></li>
+                        <li><a href="#">Browse by Languages</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+                <div class="secondary-navigation">
+                    <div class="search">
+                      <span class="search-icon"><a href="{% url 'browse_database' %}">🔍</a></span>
+                    </div>
+                    <div class="notifications">
+                      <span class="notifications-icon">🔔</span>
+                    </div>
+                  
+                    <div class="profile-menu">
+                      <div class="profile-trigger">
+                        <img src="{% static 'netflix_clone/images/profile-avatar.png' %}" alt="Profile" class="profile-avatar">
+                        <span class="dropdown-arrow">▼</span>
+                        <span class="profile-menu">Hi, {{user.username}} !</span>
+                      </div>
+                      
+                      <div class="dropdown-content">
+                        <p><a href="{% url 'profile_select' %}">Profiles</a></p>
+                        <a href="#">Account</a>
+                        <a href="#">Settings</a>
+                        <a href="{% url 'upload_video' %}">Upload Movie</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Banner with Featured Content -->
+        <section class="featured-hero">
+            <div class="featured-content">
+                <div class="featured-meta">
+                    <img src="https://ext.same-assets.com/855227852/2563901416.svg" alt="Netflix" class="netflix-n-logo">
+                    <span class="content-type">SERIES</span>
+                </div>
+                <div class="featured-title">
+                    <h1>STRANGER THINGS</h1>
+                </div>
+                <div class="featured-ranking">
+                    <span class="top-badge">#1 in TV Shows Today</span>
+                </div>
+                <div class="featured-description">
+                    <p>When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.</p>
+                </div>
+                <div class="featured-actions">
+                    <button class="btn btn-play"><span>▶</span> Play</button>
+                    <button class="btn btn-more-info"><span>ℹ</span> More Info</button>
+                </div>
+                <div class="maturity-rating">
+                    <span>TV-14</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Rows -->
+        <section class="content-rows">
+            <!-- Trending Now Row -->
+            <div class="content-row">
+                <h2 class="row-title">Trending Now</h2>
+                <div class="title-cards">
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/138160168.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1911221998.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/983517501.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/2445665303.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/3011282509.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1154196078.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue Watching Row -->
+            <div class="content-row">
+                <h2 class="row-title">Continue Watching for User</h2>
+                <div class="title-cards continue-watching">
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                    {% for video in videos %}
+                    <!-- 3333333333333333333333 HUGE problem <p><h3><span>{{ video.progress}}</span></h3></p> ----------->                
+    <div class="title-card">
+        <source src="{{ video.file.url }}" alt="Movie Title" class="title-card-image" type="video/mp4"> 
+        <div class="title-card-play"><a href="{% url 'show_details' serial_no=video.id  %}">▶</a></div> 
+        <div class="progress-bar">
+            <div class="progress" style="width: {{ video.progress }}/120 %;"></div>
+        </div>
+        <!--<video id="videoPlayer" width="800" controls> -->
+        <video id="videoPlayer" width="800" controls data-id="{{ video.id }}">    
+            <source src="{{ video.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <p><h3><span>{{ video.title }}</span></h3></p>
+        
+    </div>
+    
+
+    <!-- Video Controls -->
+    <!--<div class="controls">
+        <button onclick="playPause()">Play/Pause</button>
+        <button onclick="skip(-10)">⏪ Back 10s</button>
+        <button onclick="skip(10)">⏩ Forward 10s</button>
+        <button onclick="nextVideo()">Next Video</button>
+    </div>-->
+    {% empty %}
+    <p>No videos found.</p>
+    {% endfor %}
+
+    <!-- Uploaded by users videos that is public-->
+    {% for video2 in videos2 %}
+    <div class="video-container">
+        
+        <!--<video id="videoPlayer" width="800" controls> -->
+        <video id="videoPlayer" width="800" controls data-id="{{ video2.id }}">    
+            <source src="{{ video2.video_file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h3>{{ video2.title }}</h3>
+        
+    </div>
+    
+
+    <!-- Video Controls -->
+    <div class="controls">
+        <button onclick="playPause()">Play/Pause</button>
+        <button onclick="skip(-10)">⏪ Back 10s</button>
+        <button onclick="skip(10)">⏩ Forward 10s</button>
+        <button onclick="nextVideo()">Next Video</button>
+    </div>
+    {% empty %}
+    <p>No videos found.</p>
+    {% endfor %}
+                    <!--<div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/2383234051.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 23%;"></div>
+                        </div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1272619231.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 45%;"></div>
+                        </div>
+                    </div>-->
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/3644830612.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 12%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular on Netflix Row -->
+            <div class="content-row">
+                <h2 class="row-title">Popular on Netflix</h2>
+                <div class="title-cards">
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/138160168.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1911221998.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/983517501.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/2445665303.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1154196078.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Netflix Originals Row -->
+            <div class="content-row originals-row">
+                <h2 class="row-title">Netflix Originals</h2>
+                <div class="title-cards">
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1272619231.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/3644830612.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/3011282509.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                    <div class="title-card">
+                        <img src="https://ext.same-assets.com/855227852/1154196078.webp" alt="Movie Title" class="title-card-image">
+                        <div class="title-card-play">▶</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer footer-browse">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-icon">Facebook</a>
+                <a href="#" class="social-icon">Instagram</a>
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">YouTube</a>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <a href="#">Audio Description</a>
+                    <a href="#">Investor Relations</a>
+                    <a href="#">Legal Notices</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Help Center</a>
+                    <a href="#">Jobs</a>
+                    <a href="#">Cookie Preferences</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Gift Cards</a>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Corporate Information</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Media Center</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+
+            <button class="btn btn-service-code">Service Code</button>
+
+            <p class="copyright">© 1997-2025 Netflix, Inc.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'netflix_clone/js/main.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>   <h4>(profile part) <a href="{% url 'upload_video' %}">Upload Videos</a></h4>
+    <h3>{{ user.email }}</h3>
+    <p>Age: {{ user.age }}</p>
+    <p>Watching Hour: <span id="watchTime">{{ user.watching_hour }}</span> min</p>
+    <p>IP Address: {{ user.ip_address }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <!-- Video Player -->
+    <h2>Video Gallery</h2>
+    {% for video in videos %}
+    <div class="video-container">
+        
+        <!--<video id="videoPlayer" width="800" controls> -->
+        <video id="videoPlayer" width="800" controls data-id="{{ video.id }}">    
+            <source src="{{ video.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h3>{{ video.title }}</h3>
+        
+    </div>
+    
+
+    <!-- Video Controls -->
+    <div class="controls">
+        <button onclick="playPause()">Play/Pause</button>
+        <button onclick="skip(-10)">⏪ Back 10s</button>
+        <button onclick="skip(10)">⏩ Forward 10s</button>
+        <button onclick="nextVideo()">Next Video</button>
+    </div>
+    {% empty %}
+    <p>No videos found.</p>
+    {% endfor %}
+
+    <!-- Uploaded by users videos that is public-->
+    {% for video2 in videos2 %}
+    <div class="video-container">
+        
+        <!--<video id="videoPlayer" width="800" controls> -->
+        <video id="videoPlayer" width="800" controls data-id="{{ video2.id }}">    
+            <source src="{{ video2.video_file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h3>{{ video2.title }}</h3>
+        
+    </div>
+    
+
+    <!-- Video Controls -->
+    <div class="controls">
+        <button onclick="playPause()">Play/Pause</button>
+        <button onclick="skip(-10)">⏪ Back 10s</button>
+        <button onclick="skip(10)">⏩ Forward 10s</button>
+        <button onclick="nextVideo()">Next Video</button>
+    </div>
+    {% empty %}
+    <p>No videos found.</p>
+    {% endfor %}
+    
+    
+
+
+    <!-- Hidden Input to Track Watch Time -->
+    <input type="hidden" id="userWatchTime" value="{{ user.watching_hour }}">
+    
+    <script src="{% static 'home/js/player.js' %}"></script>
+    <script>
+        const videoProgress = {{ video_progress|safe }};
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll("video").forEach(video => {
+                const id = video.getAttribute("data-id");
+                const progress = videoProgress[id];
+                if (progress) {
+                    video.currentTime = progress;
+                    console.log(`⏩ Resuming video ${id} at ${progress} seconds`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<script src="{% static 'home/js/player.js' %}"></script>
+<script>
+    console.log("JavaScript is loaded correctly!");
+</script>
+

@@ -1,0 +1,213 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate & Review | Netflix</title>
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/review.css' %}">
+    <link rel="icon" href="{% static 'netflix_clone/images/favicon.ico' %}" type="image/x-icon">
+</head>
+<body class="review-page">
+    <header class="header header-browse">
+        <div class="header-container">
+            <div class="primary-navigation">
+                <div class="logo">
+                    <a href="browse.html">
+                        <img src="{% static 'netflix_clone/images/netflix-logo.svg' %}" alt="Netflix">
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="#">TV Shows</a></li>
+                        <li><a href="#">Movies</a></li>
+                        <li><a href="#">New & Popular</a></li>
+                        <li><a href="#">My List</a></li>
+                        <li><a href="{% url 'my_uploads' %}">My Uploads</a></li>
+                        <li><a href="#">Browse by Languages</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="secondary-navigation">
+                <div class="search">
+                  <span class="search-icon"><a href="{% url 'browse_database' %}">🔍</a></span>
+                </div>
+                <div class="notifications">
+                  <span class="notifications-icon">🔔</span>
+                </div>
+              
+                <div class="profile-menu">
+                  <div class="profile-trigger">
+                    <img src="{% static 'netflix_clone/images/profile-avatar.png' %}" alt="Profile" class="profile-avatar">
+                    <span class="dropdown-arrow">▼</span>
+                    <span class="profile-menu">Hi, {{user.username}} !</span>
+                  </div>
+                  
+                  <div class="dropdown-content">
+                    <p><a href="{% url 'profile_select' %}">Profiles</a></p>
+                    <a href="#">Account</a>
+                    <a href="#">Settings</a>
+                    <a href="{% url 'upload_video' %}">Upload Movie</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                  </div>
+                </div>
+              </div>
+        </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="review-container">
+            <div class="review-header">
+                <a href="movie.html" class="back-button">← Back</a>
+                <h1>Rate & Review</h1>
+            </div>
+
+            <div class="content-info">
+                <div class="content-poster">
+                    <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Stranger Things">
+                </div>
+                <div class="content-details">
+                    <h2>Stranger Things aka #"{{video.title}}"</h2>
+                    <div class="content-meta">
+                        <span class="year">2016</span>
+                        <span class="rating">TV-14</span>
+                        <span class="seasons">4 Seasons</span>
+                    </div>
+                    <p class="content-description">
+                        When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rating-section">
+                <h3>How would you rate this title?</h3>
+                <div class="rating-stars">
+                    <div class="star" data-value="1">★</div>
+                    <div class="star" data-value="2">★</div>
+                    <div class="star" data-value="3">★</div>
+                    <div class="star" data-value="4">★</div>
+                    <div class="star" data-value="5">★</div>
+                </div>
+                <div class="rating-label">Select Rating</div>
+            </div>
+
+            <div class="review-form">
+                <div class="form-group">
+                    <label for="review-title">Title your review (optional)</label>
+                    <input type="text" id="review-title" placeholder="What's most important to know?">
+                </div>
+
+                <div class="form-group">
+                    <label for="review-content">Write your review</label>
+                    <textarea id="review-content" rows="6" placeholder="What did you like or dislike? What should viewers know before watching?"></textarea>
+                    <div class="character-count">0/1000</div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn-cancel">Cancel</button>
+                    <button class="btn-submit" disabled>Submit</button>
+                </div>
+            </div>
+
+            <div class="user-reviews">
+                <h3>Community Reviews</h3>
+
+                <div class="review-item">
+                    <div class="review-user">
+                        <img src="https://occ-0-3212-3647.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4" alt="User">
+                        <div class="review-user-info">
+                            <span class="username">netflixfan42</span>
+                            <div class="user-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="date">July 15, 2022</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h4>Best show I've seen in a long time</h4>
+                        <p>I absolutely love Stranger Things! The characters are so well developed, and the 80s nostalgia is perfect. The story keeps getting better with each season, and the special effects are amazing. Can't wait for the next season!</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-helpful">Helpful (243)</button>
+                        <button class="btn-report">Report</button>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-user">
+                        <img src="https://occ-0-3212-3647.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdi6oYb6DJb1LndQWckgaXvrqqP3QURNa8Xngiq7wwFwDtWIg1otEuYKVxbYwS9c5clgJGDK_7f4PZP8-fMxgGq-FmI.png?r=5cf" alt="User">
+                        <div class="review-user-info">
+                            <span class="username">sarah_j</span>
+                            <div class="user-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="date">August 2, 2022</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h4>Great show, but season 4 had pacing issues</h4>
+                        <p>I've been a fan since the beginning, and while I still love the show, the latest season felt a bit drawn out. Some episodes could have been shorter. The acting is still top-notch though, especially from Eleven and Hopper.</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-helpful">Helpful (118)</button>
+                        <button class="btn-report">Report</button>
+                    </div>
+                </div>
+
+                <div class="load-more">
+                    <button class="btn-load-more">Load More Reviews</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer footer-browse">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-icon">Facebook</a>
+                <a href="#" class="social-icon">Instagram</a>
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">YouTube</a>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <a href="#">Audio Description</a>
+                    <a href="#">Investor Relations</a>
+                    <a href="#">Legal Notices</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Help Center</a>
+                    <a href="#">Jobs</a>
+                    <a href="#">Cookie Preferences</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Gift Cards</a>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Corporate Information</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Media Center</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+
+            <button class="btn btn-service-code">Service Code</button>
+
+            <p class="copyright">© 1997-2025 Netflix, Inc.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'netflix_clone/js/main.js' %}"></script>
+    <script src="{% static 'netflix_clone/js/review.js' %}"></script>
+</body>
+</html>

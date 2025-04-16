@@ -1,0 +1,126 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Netflix - Sign In</title>
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/styles.css' %}">
+    <link rel="icon" href="{% static 'netflix_clone/images/favicon.ico' %}" type="image/x-icon">
+
+    
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--<link rel="stylesheet" href="{% static 'login_signup/css/style.css' %}">-->
+</head>
+<body class="login-page">
+    <!--<body class="img js-fullheight" style="background-image: url({% static 'login_signup/images/bg.jpg' %});">-->
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center mb-5">
+                        <h2 class="heading-section">ℬℛ𝒜𝒞𝒰_𝒻𝓁ℯ𝓍</h2>
+                    </div>
+                </div>
+    <header class="header header-login">
+        <div class="logo">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'netflix_clone/images/netflix-logo.svg' %}" alt="Netflix" style="height: 80px;">
+            </a>
+        </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-form-container">
+                <h1>Sign In</h1>
+                <form class="login-form"  method="post">
+                    <!--<div class="form-group">
+                        <input type="text" name="email" id="email-login" placeholder="Email or phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>-->
+                    
+                    {% csrf_token %}
+                
+                    <!-- Email Input -->
+                    <!--<div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-login">Sign In</button>
+                    </div>
+                    <div class="form-help">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me" checked>
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="#" class="help-link">Need help?</a>
+                    </div>-->
+
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+                    </div>
+                </form>
+
+                <div class="login-signup">
+                    <p>New to Netflix? <a href="{% url 'signup' %}">Sign up now</a>.</p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-login"><a href="{% provider_login_url 'google' %}"><span class="fa fa-google mr-2"></span> Sign In with Google </a></button>
+                </div>
+                
+                <div class="login-info">
+                    <p>This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="#">Learn more</a>.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer footer-login">
+        <div class="footer-content">
+            <p>Questions? Call <a href="tel:1-844-505-2993">1-844-505-2993</a></p>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <a href="#">FAQ</a>
+                    <a href="#">Cookie Preferences</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Help Center</a>
+                    <a href="#">Corporate Information</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Terms of Use</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Privacy</a>
+                </div>
+            </div>
+
+            <div class="language-selector footer-language">
+                <select>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
+            <p class="copyright">Netflix, Inc.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'netflix_clone/js/main.js' %}"></script>
+</body>
+</html>
