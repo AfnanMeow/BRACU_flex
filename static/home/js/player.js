@@ -72,5 +72,5 @@ function getCSRFToken() {
         ?.split("=")[1];
 }
 
-// Stop tracking when user leaves the page
+// Stop tracking when user leaves the page.
 window.addEventListener("beforeunload", stopTracking);
