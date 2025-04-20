@@ -15,6 +15,8 @@ from django.http import JsonResponse
 import json
 from .models import Video, UserProfile, WatchProgress
 from module2.models import UploadedVideo
+from .profileform import ProfileForm, CustomPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 Customer = get_user_model()
 
@@ -90,6 +92,32 @@ def home(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+@login_required
+def profile(request):
+    profile_form = ProfileForm(instance=request.user)
+    password_form = CustomPasswordChangeForm(user=request.user)
+
+    if request.method == 'POST':
+        if 'profile_submit' in request.POST:  # Handle profile form submission
+            profile_form = ProfileForm(request.POST, instance=request.user)
+            if profile_form.is_valid():
+                profile_form.save()
+                return redirect('profile')
+        elif 'password_submit' in request.POST:  # Handle password form submission
+            password_form = CustomPasswordChangeForm(
+                user=request.user, data=request.POST)
+            if password_form.is_valid():
+                password_form.save()
+                # Keep the user logged in
+                update_session_auth_hash(request, password_form.user)
+                return redirect('profile')
+
+    return render(request, 'myProfile.html', {
+        'profile_form': profile_form,
+        'password_form': password_form
+    })
 
 
 

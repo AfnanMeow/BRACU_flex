@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<title>Profile</title>
+		<link
+			href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="{% static 'login_signup/css/style.css' %}"
+		/>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="text-center">Edit Profile</h1>
+
+			<!-- Profile Form -->
+			<form method="post" class="form-container" id="profile-form">
+				{% csrf_token %}
+				<h3>Profile Information</h3>
+				<div class="form-group">
+					<label for="id_first_name">First Name</label>
+					{{ profile_form.first_name }}
+				</div>
+				<div class="form-group">
+					<label for="id_last_name">Last Name</label>
+					{{ profile_form.last_name }}
+				</div>
+				<div class="form-group">
+					<label for="id_email">Email</label>
+					{{ profile_form.email }}
+				</div>
+				<div class="form-group">
+					<label for="id_age">Age</label>
+					{{ profile_form.age }}
+				</div>
+				<div class="form-group">
+					<label for="id_watching_hour">Watching Hours</label>
+					{{ profile_form.watching_hour }}
+				</div>
+				<div class="form-group">
+					<label for="id_ip_address">IP Address</label>
+					{{ profile_form.ip_address }}
+				</div>
+				<button
+					type="submit"
+					name="profile_submit"
+					class="btn btn-primary"
+				>
+					Save Profile Changes
+				</button>
+			</form>
+
+			<!-- Password Change Form -->
+			<form method="post" class="form-container mt-4" id="password-form">
+				{% csrf_token %}
+				<h3>Change Password</h3>
+				<div class="form-group">
+					<label for="id_old_password">Old Password</label>
+					{{ password_form.old_password }}
+				</div>
+				<div class="form-group">
+					<label for="id_new_password1">New Password</label>
+					{{ password_form.new_password1 }}
+				</div>
+				<div class="form-group">
+					<label for="id_new_password2">Confirm New Password</label>
+					{{ password_form.new_password2 }}
+				</div>
+				<button
+					type="submit"
+					name="password_submit"
+					class="btn btn-primary"
+				>
+					Save Password Changes
+				</button>
+			</form>
+
+			<a href="{% url 'home' %}" class="btn btn-secondary mt-3"
+				>Back to Home</a
+			>
+		</div>
+	</body>
+</html>

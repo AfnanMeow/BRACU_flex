@@ -3,6 +3,7 @@ from .views import index, signup, CustomLoginView, home, browse_database, profil
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import profile
  
 
 urlpatterns = [
@@ -18,4 +19,5 @@ urlpatterns = [
     path('choose_profiles/', profile_select, name='profile_select'),
     path('update-video-progress/', update_video_progress, name='update_video_progress'),
     path("update-watch-time/", update_watch_time, name="update-watch-time"),
+    path('profile/', profile, name='profile'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
