@@ -1,8 +1,0 @@
-<h2>Public Videos</h2>
-<ul>
-  {% for video in videos %}
-    <li>{{ video.title }} by {{ video.user.username }}</li>
-  {% empty %}
-    <li>No public videos yet.</li>
-  {% endfor %}
-</ul>
