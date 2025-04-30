@@ -20,8 +20,85 @@
 			rel="stylesheet"
 			href="{% static 'login_signup/css/style.css' %}"
 		/>
+		<link
+			rel="stylesheet"
+			href="{% static 'netflix_clone/css/styles.css' %}"
+		/>
 	</head>
 	<body>
+		<header class="header header-browse">
+			<div class="header-container">
+				<div class="primary-navigation">
+					<div class="logo">
+						<a href="{% url 'home' %}">
+							<img
+								src="{% static 'netflix_clone/images/netflix-logo.svg' %}"
+								alt="Netflix"
+								style="height: 80px"
+							/>
+						</a>
+					</div>
+					<nav class="main-nav">
+						<ul class="nav-list">
+							<li class="active">
+								<a href="{% url 'home' %}">Home</a>
+							</li>
+							<li><a href="#">TV Shows</a></li>
+							<li><a href="#">Movies</a></li>
+							<li><a href="#">New & Popular</a></li>
+							<li><a href="#">My List</a></li>
+							<li>
+								<a href="{% url 'my_uploads' %}">My Uploads</a>
+							</li>
+							<li><a href="#">Browse by Languages</a></li>
+						</ul>
+					</nav>
+					<button class="navbar-toggler" id="navbarToggler">☰</button>
+				</div>
+				<div class="secondary-navigation">
+					<div class="search">
+						<span class="search-icon"
+							><a href="{% url 'browse_database' %}">🔍</a></span
+						>
+					</div>
+					<div class="notifications">
+						<span class="notifications-icon">🔔</span>
+					</div>
+					<button
+						class="theme-toggler"
+						id="themeToggler"
+						title="Toggle Theme"
+					>
+						Toggle to light
+					</button>
+					<div class="profile-menu">
+						<div class="profile-trigger">
+							<img
+								src="{% static 'netflix_clone/images/profile-avatar.png' %}"
+								alt="Profile"
+								class="profile-avatar"
+							/>
+							<span class="dropdown-arrow">▼</span>
+							<span class="profile-menu"
+								>Hi, {{ user.username }}!</span
+							>
+						</div>
+						<div class="dropdown-content">
+							<p>
+								<a href="{% url 'profile_select' %}"
+									>Profiles</a
+								>
+							</p>
+							<a href="{% url 'profile' %}">Edit Profile</a>
+							<a href="#">Settings</a>
+							<a href="{% url 'upload_video' %}">Upload Movie</a>
+							<a href="{% url 'logout' %}">Logout</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
 		<div class="container">
 			<h1 class="text-center">Edit Profile</h1>
 
@@ -91,5 +168,56 @@
 				>Back to Home</a
 			>
 		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const themeToggler = document.getElementById("themeToggler");
+				if (!themeToggler) {
+					console.error("Theme toggler button not found in the DOM.");
+					return;
+				}
+
+				const body = document.body;
+
+				// Check local storage for saved theme
+				const savedTheme = localStorage.getItem("theme");
+				if (savedTheme) {
+					body.classList.add(savedTheme);
+					themeToggler.textContent =
+						savedTheme === "light-mode"
+							? "Toggle to dark"
+							: "Toggle to light";
+					console.log(`Loaded theme: ${savedTheme}`);
+				}
+
+				// Toggle theme on button click
+				themeToggler.addEventListener("click", () => {
+					if (body.classList.contains("light-mode")) {
+						body.classList.remove("light-mode");
+						body.style.backgroundColor = "#141414"; // Dark mode background
+						body.style.color = "#ffffff"; // Dark mode text
+						localStorage.setItem("theme", "");
+						themeToggler.textContent = "Toggle to light";
+						console.log("Switched to dark mode");
+					} else {
+						body.classList.add("light-mode");
+						body.style.backgroundColor = "#f9f9f9"; // Light mode background
+						body.style.color = "#333333"; // Light mode text
+						localStorage.setItem("theme", "light-mode");
+						themeToggler.textContent = "Toggle to dark";
+						console.log("Switched to light mode");
+					}
+				});
+
+				const navbarToggler = document.getElementById("navbarToggler");
+				const mainNav = document.querySelector(".main-nav ul");
+
+				if (navbarToggler && mainNav) {
+					navbarToggler.addEventListener("click", () => {
+						mainNav.classList.toggle("show");
+					});
+				}
+			});
+		</script>
 	</body>
 </html>

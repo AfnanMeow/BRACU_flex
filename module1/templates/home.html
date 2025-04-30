@@ -39,7 +39,7 @@
                     <div class="notifications">
                       <span class="notifications-icon">🔔</span>
                     </div>
-                  
+                    <button class="theme-toggler" id="themeToggler" title="Toggle Theme">Toggle to light</button>
                     <div class="profile-menu">
                       <div class="profile-trigger">
                         <img src="{% static 'netflix_clone/images/profile-avatar.png' %}" alt="Profile" class="profile-avatar">
@@ -303,6 +303,45 @@
     </footer>
 
     <script src="{% static 'netflix_clone/js/main.js' %}"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const themeToggler = document.getElementById("themeToggler");
+        if (!themeToggler) {
+            console.error("Theme toggler button not found in the DOM.");
+            return;
+        }
+
+        const body = document.body;
+
+        // Check local storage for saved theme
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            themeToggler.textContent =
+                savedTheme === "light-mode" ? "Toggle to dark" : "Toggle to light";
+            console.log(`Loaded theme: ${savedTheme}`);
+        }
+
+        // Toggle theme on button click
+        themeToggler.addEventListener("click", () => {
+            if (body.classList.contains("light-mode")) {
+                body.classList.remove("light-mode");
+                body.style.backgroundColor = "#141414"; // Dark mode background
+                body.style.color = "#ffffff"; // Dark mode text
+                localStorage.setItem("theme", "");
+                themeToggler.textContent = "Toggle to light";
+                console.log("Switched to dark mode");
+            } else {
+                body.classList.add("light-mode");
+                body.style.backgroundColor = "#f9f9f9"; // Light mode background
+                body.style.color = "#333333"; // Light mode text
+                localStorage.setItem("theme", "light-mode");
+                themeToggler.textContent = "Toggle to dark";
+                console.log("Switched to light mode");
+            }
+        });
+    });
+</script>
 </body>
 </html>
 
@@ -344,12 +383,14 @@
     {% if videos %}
         {% for video in videos %}
         <div class="video-container">
-            <video id="videoPlayer{{ forloop.counter }}" width="800" controls data-id="{{ video.id }}">
-                <source src="{{ video.video_file.url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="video-wrapper">
+                <video id="videoPlayer{{ forloop.counter }}" controls data-id="{{ video.id }}">
+                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <h3>{{ video.title }}</h3>
-            <p>Uploaded by: {{ video.user.username }}</p>
+            <a href="{{ video.file.url }}" download="{{ video.title }}.mp4" class="btn btn-download">Download</a>
         </div>
         {% endfor %}
     {% else %}
@@ -361,12 +402,12 @@
     <h2>Video Gallery</h2>
     {% for video in videos %}
     <div class="video-container">
-        
-        <!--<video id="videoPlayer" width="800" controls> -->
-        <video id="videoPlayer" width="800" controls data-id="{{ video.id }}">    
-            <source src="{{ video.file.url }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="video-wrapper">
+            <video id="videoPlayer" width="800" controls data-id="{{ video.id }}">    
+                <source src="{{ video.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
         <h3>{{ video.title }}</h3>
         <a href="{{ video.file.url }}" download="{{ video.title }}.mp4" class="btn btn-download" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e50914; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center;">
     Download
@@ -387,15 +428,14 @@
 
     <!-- Uploaded by users videos that is public-->
     {% for video2 in videos2 %}
-    <div class="video-container">
-        
-        <!--<video id="videoPlayer" width="800" controls> -->
-        <video id="videoPlayer" width="800" controls data-id="{{ video2.id }}">    
-            <source src="{{ video2.video_file.url }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <h3>{{ video2.title }}</h3>
-        
+    <div class="video-container" style="max-width: 10%; margin: 10px auto; padding: 10px; box-sizing: border-box;">
+        <div class="video-wrapper" style="position: relative; width: 100%; padding-top: 56.25%; overflow: hidden;">
+            <video id="videoPlayer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" controls data-id="{{ video2.id }}">    
+                <source src="{{ video2.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <h3 style="font-size: 16px; text-align: center; margin-top: 10px;">{{ video2.title }}</h3>
     </div>
     
 
