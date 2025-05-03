@@ -341,8 +341,15 @@
             <source src="{{ video.file.url }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+<<<<<<< Updated upstream
         <h3>{{ video.title }}</h3>
         
+=======
+        <h3><a href="{% url 'share_movie' video.share_token %}">{{ video.title }}</a></h3>
+        <a href="{{ video.file.url }}" download="{{ video.title }}.mp4" class="btn btn-download" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e50914; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center;">
+    Download
+</a>
+>>>>>>> Stashed changes
     </div>
     
 
@@ -352,6 +359,9 @@
         <button onclick="skip(-10)">⏪ Back 10s</button>
         <button onclick="skip(10)">⏩ Forward 10s</button>
         <button onclick="nextVideo()">Next Video</button>
+        <button onclick="shareMovie('{{ video.share_token }}')">↱ Share</button>
+        
+
     </div>
     {% empty %}
     <p>No videos found.</p>
@@ -366,7 +376,7 @@
             <source src="{{ video2.video_file.url }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <h3>{{ video2.title }}</h3>
+        <h3><a href="{% url 'share_movie' video.share_token %}">{{ video.title }}</a></h3>
         
     </div>
     
@@ -377,11 +387,22 @@
         <button onclick="skip(-10)">⏪ Back 10s</button>
         <button onclick="skip(10)">⏩ Forward 10s</button>
         <button onclick="nextVideo()">Next Video</button>
+        <button onclick="shareMovie('{{ video2.share_token }}')">↱ Share</button>
+        
+
     </div>
     {% empty %}
     <p>No videos found.</p>
     {% endfor %}
     
+    {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
     
 
 
@@ -402,6 +423,29 @@
             });
         });
     </script>
+    <script>
+        function shareMovie(token) {
+            fetch(`/share/${token}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch share link");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message + "\n" + data.url);
+                // Optionally: Copy to clipboard
+                navigator.clipboard.writeText(data.url).then(() => {
+                    console.log("URL copied to clipboard");
+                });
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Failed to get the share link.");
+            });
+        }
+        </script>
+        
 </body>
 </html>
 <script src="{% static 'home/js/player.js' %}"></script>
