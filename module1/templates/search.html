@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Browse/Search </title>
+  <link rel="stylesheet" href="{% static 'netflix_clone/css/styles.css' %}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #141414;
+      color: #fff;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 4%;
+      background-color: #000;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e50914;
+    }
+
+    .nav-links a {
+      margin: 0 12px;
+      color: #e5e5e5;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .search-bar input {
+      padding: 10px 120px;
+      border-radius: 3px;
+      border: none;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .categories {
+      padding: 20px 4%;
+      font-size: 14px;
+    }
+
+    .categories a {
+      color: #aaa;
+      text-decoration: none;
+      margin-right: 8px;
+    }
+
+    .categories a:hover {
+      text-decoration: underline;
+    }
+
+    .results-section {
+      padding: 0 4% 60px;
+    }
+
+    .row {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 20px 0;
+    }
+
+    .row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .row img {
+      width: 200px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px;
+      transition: transform 0.3s;
+    }
+
+    .row img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">NETFLIX</div>
+    <nav class="nav-links">
+        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+      <a href="#">TV Shows</a>
+      <a href="#">Movies</a>
+      <a href="#">New & Popular</a>
+      <a href="#">My List</a>
+    </nav>
+    <div class="search-bar">
+      <input type="text" placeholder="Search">
+    </div>
+  </header>
+
+  <section class="categories">
+    <p>Explore titles related to:
+      <a href="#">Cars</a>,
+      <a href="#">Action</a>,
+      <a href="#">Cartoons</a>,
+      <a href="#">Sci-fi</a>,
+      <a href="#">Family</a>
+    </p>
+  </section>
+
+  <section class="results-section">
+    <div class="row">
+        <img src="https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg" alt="Inception">
+        <img src="https://m.media-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg" alt="Stranger Things">
+        <img src="https://m.media-amazon.com/images/I/81t-9-8WdKL._AC_SY679_.jpg" alt="The Witcher">
+        <img src="https://m.media-amazon.com/images/I/81Q1FxZ0n8L._AC_SY679_.jpg" alt="Money Heist">
+        <img src="https://m.media-amazon.com/images/I/71c05lTE03L._AC_SY679_.jpg" alt="Breaking Bad">
+      </div>
+      <div class="row">
+        <img src="https://m.media-amazon.com/images/I/91+z5smvGXL._AC_SY679_.jpg" alt="Lucifer">
+        <img src="https://m.media-amazon.com/images/I/81pA5FeZ1CL._AC_SY679_.jpg" alt="Narcos">
+        <img src="https://m.media-amazon.com/images/I/81e7kkTLMjL._AC_SY679_.jpg" alt="The Crown">
+        <img src="https://m.media-amazon.com/images/I/81iH3FZXR5L._AC_SY679_.jpg" alt="Peaky Blinders">
+        <img src="https://m.media-amazon.com/images/I/81rttZCvWEL._AC_SY679_.jpg" alt="You">
+      </div>
+      
+  </section>
+</body>
+</html>
