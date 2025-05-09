@@ -124,13 +124,13 @@
             <div class="content-row">
                 <h2 class="row-title">Continue Watching for User</h2>
                 <div class="title-cards continue-watching">
-                    <div class="title-card">
+                    <!--<div class="title-card">
                         <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Movie Title" class="title-card-image">
                         <div class="title-card-play">▶</div>
                         <div class="progress-bar">
                             <div class="progress" style="width: 65%;"></div>
                         </div>
-                    </div>
+                    </div>-->
                     {% for video in videos %}
                     <!-- 3333333333333333333333 HUGE problem <p><h3><span>{{ video.progress}}</span></h3></p> ----------->                
     <div class="title-card">
@@ -180,6 +180,9 @@
         <button onclick="skip(-10)">⏪ Back 10s</button>
         <button onclick="skip(10)">⏩ Forward 10s</button>
         <button onclick="nextVideo()">Next Video</button>
+        <a href="{% url 'shared_video' video2.share_token %}" target="_blank">
+            <button>Share</button>
+        </a>
     </div>
     {% empty %}
     <p>No videos found.</p>
@@ -198,13 +201,13 @@
                             <div class="progress" style="width: 45%;"></div>
                         </div>
                     </div>-->
-                    <div class="title-card">
+                    <!--<div class="title-card">
                         <img src="https://ext.same-assets.com/855227852/3644830612.webp" alt="Movie Title" class="title-card-image">
                         <div class="title-card-play">▶</div>
                         <div class="progress-bar">
                             <div class="progress" style="width: 12%;"></div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -324,12 +327,7 @@
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
 </head>
 <body>
-    <h1>Welcome, {{ user.username }}</h1>   <h4>(profile part) <a href="{% url 'upload_video' %}">Upload Videos</a></h4>
-    <h3>{{ user.email }}</h3>
-    <p>Age: {{ user.age }}</p>
-    <p>Watching Hour: <span id="watchTime">{{ user.watching_hour }}</span> min</p>
-    <p>IP Address: {{ user.ip_address }}</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    
 
     <!-- Video Player -->
     <h2>Video Gallery</h2>
@@ -354,6 +352,9 @@
         <button onclick="skip(-10)">⏪ Back 10s</button>
         <button onclick="skip(10)">⏩ Forward 10s</button>
         <button onclick="nextVideo()">Next Video</button>
+        <a href="{% url 'shared_video' video.share_token %}" target="_blank">
+            <button>Share</button>
+        </a>
     </div>
     {% empty %}
     <p>No videos found.</p>
@@ -379,6 +380,9 @@
         <button onclick="skip(-10)">⏪ Back 10s</button>
         <button onclick="skip(10)">⏩ Forward 10s</button>
         <button onclick="nextVideo()">Next Video</button>
+        <a href="{% url 'shared_video' video2.share_token %}" target="_blank">
+            <button>Share</button>
+        </a>
     </div>
     {% empty %}
     <p>No videos found.</p>

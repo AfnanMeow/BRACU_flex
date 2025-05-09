@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'module1',  
     'module2',
+    'module3',
     'social_django',  # For Google OAuth
     "django.contrib.sites",
     "allauth",

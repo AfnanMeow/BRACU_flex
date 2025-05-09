@@ -22,6 +22,12 @@
 		/>
 	</head>
 	<body>
+	<h1>                   Welcome, {{ user.username }}</h1>   
+    <h3>                  email: {{ user.email }}</h3>
+    <p>                   Age: {{ user.age }}</p>
+    <p>                   Watching Hour: <span id="watchTime">{{ user.watching_hour }}</span> min</p>
+    <p>                   IP Address: {{ user.ip_address }}</p>
+    <a href="{% url 'logout' %}">            Logout</a>
 		<div class="container">
 			<h1 class="text-center">Edit Profile</h1>
 

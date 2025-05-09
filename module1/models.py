@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 from django.conf import settings
+import uuid
 
 class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)
@@ -16,9 +17,11 @@ class CustomUser(AbstractUser):
 class Video(models.Model):
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to="videos/")
+    share_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # ✅ FIXED
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  
     watching_hour = models.IntegerField(default=0)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
 

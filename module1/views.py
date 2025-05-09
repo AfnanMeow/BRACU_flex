@@ -18,6 +18,7 @@ from module2.models import UploadedVideo
 from .profileform import ProfileForm, CustomPasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+
 Customer = get_user_model()
 
 def index(request):
@@ -71,12 +72,15 @@ class CustomLoginView(LoginView):
         
         try:
             user = CustomUser.objects.get(username=email)
-            print(user == None)
-            auth_user = authenticate(username=user.username, password = password)
-            print(user.password)
-            if auth_user:
-                login(self.request, auth_user)
-                return redirect('home')
+            if user.ip_address == get_client_ip(self.request):
+                print("Very Good boy")
+                auth_user = authenticate(username=user.username, password = password)
+            
+                if auth_user:
+                    login(self.request, auth_user)
+                    return redirect('home')
+            else:
+                return HttpResponse("New Public Ip Detected try logging from your original location", status=401)    
         except ObjectDoesNotExist:
             return HttpResponse("Invalid credentials", status=401)
 
@@ -142,11 +146,14 @@ def review(request, serial_no):
 @login_required
 def home(request):
     videos = Video.objects.all()
+    u_videos = UploadedVideo.objects.all()
     progress_data = WatchProgress.objects.filter(user=request.user)
     video_progress = {wp.video_id: wp.progress for wp in progress_data}
+            
 
     return render(request, "home.html", {
         "videos": videos,
+        "u_videos": u_videos,
         "user": request.user,
         "video_progress": video_progress,
     })

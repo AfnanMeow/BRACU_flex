@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-import os
+import os, uuid
 
 
 def video_upload_path(instance, filename):
@@ -15,3 +15,5 @@ class UploadedVideo(models.Model):
     video_file = models.FileField(upload_to=video_upload_path)
     is_public = models.BooleanField(default=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    share_token = models.UUIDField(unique=True, default=uuid.uuid4)
+
