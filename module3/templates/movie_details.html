@@ -1,0 +1,19 @@
+<h1>{{ movie.title }}</h1>
+<p>{{ movie.description }}</p>
+<p>Genre: {{ movie.genre }}</p>
+<p>Release Date: {{ movie.release_date }}</p>
+
+<h2>Reviews</h2>
+<ul>
+    {% for review in reviews %}
+        <li>
+            <strong>{{ review.user.username }}</strong> rated {{ review.rating }}/5
+            <p>{{ review.comment }}</p>
+            <small>Reviewed on {{ review.created_at }}</small>
+        </li>
+    {% empty %}
+        <p>No reviews yet. Be the first to review!</p>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'add_review' movie.id %}">Add a Review</a>

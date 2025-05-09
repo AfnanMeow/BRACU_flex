@@ -1,0 +1,10 @@
+<!-- filepath: c:\Users\ASUS\Desktop\BRACU_flex\module2\templates\movie_list.html -->
+<h1>Movie List</h1>
+<ul>
+    {% for movie in movies %}
+        <li>
+            {{ movie.title }} - {{ movie.genre }} ({{ movie.release_date }})
+            <a href="{% url 'update_movie' movie.id %}">Edit</a>
+        </li>
+    {% endfor %}
+</ul>

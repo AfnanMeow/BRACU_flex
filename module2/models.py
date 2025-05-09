@@ -3,13 +3,15 @@ from django.db import models
 import os, uuid
 
 
+from module1.models import Video #Afaf-Only
+
 def video_upload_path(instance, filename):
     # Choose folder based on is_public value
     folder = 'uploads' if instance.is_public else 'uploads/private'
     return os.path.join(folder, filename)
 
 
-from module1.models import Video
+
 
 
 
@@ -35,3 +37,15 @@ class WatchlistItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.video.title}"
+    video_file = models.FileField(upload_to='uploads/')
+    is_public = models.BooleanField(default=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Movie(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    genre = models.CharField(max_length=100)
+    release_date = models.DateField()
+
+    def __str__(self):
+        return self.title

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Friends' Viewed Content</title>
+</head>
+<body>
+    <h1>Friends' Viewed Content</h1>
+    <ul>
+        {% for item in content %}
+            <li>{{ item.user.username }} viewed: {{ item.content }} at {{ item.viewed_at }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

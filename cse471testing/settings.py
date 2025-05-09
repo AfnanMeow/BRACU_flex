@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
 ]
+
 LOGIN_URL = '/login/'
 LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = '/home/'

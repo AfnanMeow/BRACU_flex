@@ -24,6 +24,7 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
     path('accounts/', include("allauth.urls")),
     path('module2/', include('module2.urls')),
+    path('movies/', include('module2.urls')),#afaf-final
     path('module3/', include('module3.urls')),
 ]
 
