@@ -9,6 +9,10 @@ def video_upload_path(instance, filename):
     return os.path.join(folder, filename)
 
 
+from module1.models import Video
+
+
+
 class UploadedVideo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -17,3 +21,17 @@ class UploadedVideo(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     share_token = models.UUIDField(unique=True, default=uuid.uuid4)
 
+
+
+
+
+class WatchlistItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    video = models.ForeignKey('module1.Video', on_delete=models.CASCADE)  
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'video')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.video.title}"

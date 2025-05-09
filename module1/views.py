@@ -17,6 +17,13 @@ from .models import Video, UserProfile, WatchProgress
 from module2.models import UploadedVideo
 from .profileform import ProfileForm, CustomPasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from .models import SubscriptionPlan, UserSubscription
+from .forms import UserProfileForm
+from django.contrib import messages
+from .models import Payment
+from django.contrib import messages
+from .models import Payment, UserSubscription
+
 
 
 Customer = get_user_model()
@@ -32,6 +39,12 @@ def signup(request):
             user = form.save(commit=False)
             user.ip_address = get_client_ip(request)  # Store IP
             user.save()
+            try:
+             free_plan = SubscriptionPlan.objects.get(name='free')
+             UserSubscription.objects.create(user=user, plan=free_plan)
+            except SubscriptionPlan.DoesNotExist:
+                   pass
+            
 
             # Explicitly setting the backend
             backend = 'django.contrib.auth.backends.ModelBackend'
@@ -81,6 +94,12 @@ class CustomLoginView(LoginView):
                     return redirect('home')
             else:
                 return HttpResponse("New Public Ip Detected try logging from your original location", status=401)    
+            print(user == None)
+            auth_user = authenticate(username=user.username, password = password)
+            print(user.password)
+            if auth_user:
+                login(self.request, auth_user)
+                return redirect('profile_select')
         except ObjectDoesNotExist:
             return HttpResponse("Invalid credentials", status=401)
 
@@ -145,6 +164,12 @@ def review(request, serial_no):
 
 @login_required
 def home(request):
+    profile_id = request.session.get('active_profile_id')
+    if not profile_id:
+        return redirect('profile_select')
+
+    active_profile = get_object_or_404(UserProfile, id=profile_id, user=request.user)
+
     videos = Video.objects.all()
     u_videos = UploadedVideo.objects.all()
     progress_data = WatchProgress.objects.filter(user=request.user)
@@ -156,7 +181,9 @@ def home(request):
         "u_videos": u_videos,
         "user": request.user,
         "video_progress": video_progress,
+        "active_profile": active_profile,  # ✅ send to template
     })
+
 
 
 
@@ -212,3 +239,109 @@ def update_video_progress(request):
             return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+@login_required
+def subscription_page(request):
+    plans = SubscriptionPlan.objects.all()
+    try:
+        user_sub = UserSubscription.objects.get(user=request.user)
+    except UserSubscription.DoesNotExist:
+        user_sub = None
+
+    if request.method == "POST":
+        selected_plan_id = request.POST.get("plan_id")
+        if selected_plan_id:
+            # Redirect to checkout with the selected plan
+            return redirect("checkout", plan_id=selected_plan_id)
+
+    return render(request, "subscription_page.html", {
+        "plans": plans,
+        "user_sub": user_sub
+    })
+
+
+
+
+@login_required
+def profile_select(request):
+    profiles = request.user.profiles.all() 
+    return render(request, 'profile_select.html', {'profiles': profiles})
+
+@login_required
+def set_active_profile(request, profile_id):
+    profile = get_object_or_404(UserProfile, id=profile_id, user=request.user)
+    request.session['active_profile_id'] = profile.id
+    return redirect('home')  
+
+@login_required
+def create_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('profile_select')
+    else:
+        form = UserProfileForm()
+    return render(request, 'profile_create.html', {'form': form})
+
+@login_required
+def delete_profile(request, profile_id):
+    profile = get_object_or_404(UserProfile, id=profile_id, user=request.user)
+    profile.delete()
+    return redirect('profile_select')
+
+
+@login_required
+def checkout(request, plan_id):
+    plan = get_object_or_404(SubscriptionPlan, id=plan_id)
+
+    if request.method == "POST":
+        method = request.POST.get("payment_method")
+        transaction_id = request.POST.get("transaction_id")
+
+        if method and transaction_id:
+            Payment.objects.create(
+                user=request.user,
+                plan=plan,
+                amount=plan.price,
+                method=method,
+                transaction_id=transaction_id,
+                status='success'
+            )
+
+            UserSubscription.objects.update_or_create(
+                user=request.user,
+                defaults={"plan": plan}
+            )
+
+            messages.success(request, "Payment successful! Your subscription has been updated.")
+            return redirect("home") 
+        else:
+            messages.error(request, "Payment failed. Please try again.")
+
+    return render(request, "checkout.html", {"plan": plan})
+
+
+def payment_success(request):
+    transaction_id = request.GET.get("transaction_id")
+
+    if not transaction_id:
+        messages.error(request, "Missing payment transaction ID.")
+        return redirect('home')  
+
+    payment = get_object_or_404(Payment, transaction_id=transaction_id, user=request.user)
+
+    if payment.status == 'success':
+        # Update or create user subscription
+        UserSubscription.objects.update_or_create(
+            user=request.user,
+            defaults={'plan': payment.plan}
+        )
+        messages.success(request, "Subscription updated successfully!")
+    else:
+        messages.error(request, "Payment was not successful.")
+
+    return redirect('home')

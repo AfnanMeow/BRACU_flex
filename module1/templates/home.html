@@ -11,6 +11,8 @@
     <link rel="icon" href="{% static 'netflix_clone/images/favicon.ico' %}" type="image/x-icon">
 </head>
 <body class="browse-page">
+    
+
     <header class="header header-browse">
         <div class="header-container">
             <div class="primary-navigation">
@@ -28,11 +30,28 @@
                         <li><a href="#">My List</a></li>
                         <li><a href="{% url 'my_uploads' %}">My Uploads</a></li>
                         <li><a href="#">Browse by Languages</a></li>
+                        <li><a href="{% url 'watchlist' %}" class="btn btn-primary">📺 Watchlist</a></li>
+
                     </ul>
                 </nav>
             </div>
 
                 <div class="secondary-navigation">
+                    {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+                    <div class="subscription-link">
+                        <a href="{% url 'subscription' %}" class="btn btn-subscribe">📦 Subscription</a>
+                    </div>
+                    
+                    
+                    
                     <div class="search">
                       <span class="search-icon"><a href="{% url 'browse_database' %}">🔍</a></span>
                     </div>
@@ -42,9 +61,13 @@
                     <button class="theme-toggler" id="themeToggler" title="Toggle Theme">Toggle to light</button>
                     <div class="profile-menu">
                       <div class="profile-trigger">
-                        <img src="{% static 'netflix_clone/images/profile-avatar.png' %}" alt="Profile" class="profile-avatar">
+                        {% if active_profile.avatar %}
+      <img src="{{ active_profile.avatar.url }}" alt="Profile" class="profile-avatar">
+    {% else %}
+      <img src="{% static 'netflix_clone/images/profile-avatar.png' %}" alt="Profile" class="profile-avatar">
+    {% endif %}
                         <span class="dropdown-arrow">▼</span>
-                        <span class="profile-menu">Hi, {{user.username}} !</span>
+                        <span class="profile-menu">Hi, {{active_profile.name}} !</span>
                       </div>
                       
                       <div class="dropdown-content">
@@ -70,6 +93,8 @@
                 </div>
                 <div class="featured-title">
                     <h1>STRANGER THINGS</h1>
+                    
+
                 </div>
                 <div class="featured-ranking">
                     <span class="top-badge">#1 in TV Shows Today</span>
@@ -84,6 +109,8 @@
                 <div class="maturity-rating">
                     <span>TV-14</span>
                 </div>
+                
+
             </div>
         </section>
 
@@ -121,17 +148,36 @@
             </div>
 
             <!-- Continue Watching Row -->
-            <div class="content-row">
-                <h2 class="row-title">Continue Watching for User</h2>
-                <div class="title-cards continue-watching">
-                    <!--<div class="title-card">
-                        <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Movie Title" class="title-card-image">
-                        <div class="title-card-play">▶</div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 65%;"></div>
-                        </div>
-                    </div>-->
-                    {% for video in videos %}
+<!-- Continue Watching Row -->
+<div class="content-row">
+    <h2 class="row-title">Continue Watching for User</h2>
+    <div class="title-cards continue-watching">
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/1950992896.webp" alt="Movie Title" class="title-card-image">
+            <div class="title-card-play">▶</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 65%;"></div>  <!-- Example for progress -->
+            </div>
+        </div>
+        {% for video in videos %}
+        <div class="title-card">
+            <video id="videoPlayer" width="800" controls data-id="{{ video.id }}">    
+                <source src="{{ video.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h3>{{ video.title }}</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ video.progress|floatformat:0 }}%;"></div> <!-- Using video.progress as a percentage -->
+            </div>
+            <a href="{% url 'add_to_watchlist' video.id %}">➕ Add to Watchlist</a>
+        </div>
+        {% empty %}
+        <p>No videos found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+    {% for video in videos %}
                     <!-- 3333333333333333333333 HUGE problem <p><h3><span>{{ video.progress}}</span></h3></p> ----------->                
     <div class="title-card">
         <source src="{{ video.file.url }}" alt="Movie Title" class="title-card-image" type="video/mp4"> 
@@ -145,6 +191,8 @@
             Your browser does not support the video tag.
         </video>
         <p><h3><span>{{ video.title }}</span></h3></p>
+        <a href="{% url 'add_to_watchlist' video.id %}">➕ Add to Watchlist</a>
+
         
     </div>
     
@@ -161,20 +209,19 @@
     {% endfor %}
 
     <!-- Uploaded by users videos that is public-->
-    {% for video2 in videos2 %}
-    <div class="video-container">
-        
-        <!--<video id="videoPlayer" width="800" controls> -->
-        <video id="videoPlayer" width="800" controls data-id="{{ video2.id }}">    
-            <source src="{{ video2.video_file.url }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <h3>{{ video2.title }}</h3>
-        
-    </div>
-    
-
-    <!-- Video Controls -->
+    <!-- Uploaded by users videos that are public-->
+{% for video2 in videos2 %}
+<div class="video-container">
+    <video id="videoPlayer" width="800" controls data-id="{{ video2.id }}">    
+        <source src="{{ video2.video_file.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <h3>{{ video2.title }}</h3>
+    <a href="{{ video2.video_file.url }}" download="{{ video2.title }}.mp4" class="btn btn-download" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e50914; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center;">
+        Download
+    </a>
+</div>
+ <!-- Video Controls -->
     <div class="controls">
         <button onclick="playPause()">Play/Pause</button>
         <button onclick="skip(-10)">⏪ Back 10s</button>
@@ -243,27 +290,52 @@
             </div>
 
             <!-- Netflix Originals Row -->
-            <div class="content-row originals-row">
-                <h2 class="row-title">Netflix Originals</h2>
-                <div class="title-cards">
-                    <div class="title-card">
-                        <img src="https://ext.same-assets.com/855227852/1272619231.webp" alt="Movie Title" class="title-card-image">
-                        <div class="title-card-play">▶</div>
-                    </div>
-                    <div class="title-card">
-                        <img src="https://ext.same-assets.com/855227852/3644830612.webp" alt="Movie Title" class="title-card-image">
-                        <div class="title-card-play">▶</div>
-                    </div>
-                    <div class="title-card">
-                        <img src="https://ext.same-assets.com/855227852/3011282509.webp" alt="Movie Title" class="title-card-image">
-                        <div class="title-card-play">▶</div>
-                    </div>
-                    <div class="title-card">
-                        <img src="https://ext.same-assets.com/855227852/1154196078.webp" alt="Movie Title" class="title-card-image">
-                        <div class="title-card-play">▶</div>
-                    </div>
-                </div>
-            </div>
+     <!-- Netflix Originals Row -->
+<div class="content-row originals-row">
+    <h2 class="row-title">Netflix Originals</h2>
+    <div class="title-cards">
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/1272619231.webp" alt="Movie Title" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/3644830612.webp" alt="Movie Title" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/3011282509.webp" alt="Movie Title" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/1154196078.webp" alt="Movie Title" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+    </div>
+</div>
+
+<!-- My Watchlist Row -->
+<div class="content-row watchlist-row">
+    <h2 class="row-title">My Watchlist</h2>
+    <div class="title-cards">
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/2455472101.webp" alt="Watchlist Movie" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/1515179018.webp" alt="Watchlist Movie" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/3691934012.webp" alt="Watchlist Movie" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+        <div class="title-card">
+            <img src="https://ext.same-assets.com/855227852/1123490847.webp" alt="Watchlist Movie" class="title-card-image">
+            <div class="title-card-play">▶</div>
+        </div>
+    </div>
+</div>
+
         </section>
     </main>
 
@@ -344,7 +416,12 @@
             }
         });
     });
-</script>
+</script><script>
+        setTimeout(function () {
+          const alerts = document.querySelectorAll('.alert');
+          alerts.forEach(alert => alert.style.display = 'none');
+        }, 3000); // hides after 3 seconds
+      </script>
 </body>
 </html>
 
@@ -457,7 +534,7 @@
     
 
 
-    <!-- Hidden Input to Track Watch Time -->
+   
     <input type="hidden" id="userWatchTime" value="{{ user.watching_hour }}">
     
     <script src="{% static 'home/js/player.js' %}"></script>

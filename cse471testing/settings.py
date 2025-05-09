@@ -36,7 +36,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/choose_profiles/'
 SOCIAL_AUTH_USER_MODEL = 'module1.CustomUser'
 
 
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 LOGIN_URL = '/login/'
 LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = '/home/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/choose_profiles/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+    'cse471testing.middleware.ActiveProfileMiddleware',
 ]
 
 

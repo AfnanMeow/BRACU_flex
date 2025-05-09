@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from module1.models import Video
+from .models import WatchlistItem
+
 @login_required
 def upload_video(request):
     if request.method == 'POST':
@@ -47,3 +52,19 @@ def search_videos(request):
         Q(video_file__icontains=query)  # Search in the file name
     ) if query else []
     return render(request, 'search_results.html', {'videos': videos, 'query': query})
+@login_required
+def add_to_watchlist(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    WatchlistItem.objects.get_or_create(user=request.user, video=video)
+    return redirect('watchlist')  # Redirect to the watchlist page
+
+@login_required
+def remove_from_watchlist(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    WatchlistItem.objects.filter(user=request.user, video=video).delete()
+    return redirect('watchlist')
+
+@login_required
+def watchlist(request):
+    items = WatchlistItem.objects.filter(user=request.user).select_related('video')
+    return render(request, 'watchlist.html', {'items': items})
