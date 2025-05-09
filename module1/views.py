@@ -14,6 +14,9 @@ from django.contrib.auth.backends import ModelBackend
 from django.http import JsonResponse
 import json
 from .models import Video, UserProfile
+from django.shortcuts import get_object_or_404
+from module2.models import Movie
+from module2.forms import MovieForm
 
 
 Customer = get_user_model()
@@ -121,3 +124,36 @@ def update_watch_time(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+
+
+
+
+# @login_required
+# def show_added_friends(request):
+#     friends = Friendship.objects.filter(user=request.user).select_related('friend')
+#     return render(request, 'show_friends.html', {'friends': friends})
+
+# @login_required
+# def add_movie(request):
+#     if request.method == 'POST':
+#         form = MovieForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('review_home')
+#     else:
+#         form = MovieForm()
+#     return render(request, 'add_movie.html', {'form': form})
+
+# @login_required
+# def edit_movie(request, movie_id):
+#     movie = get_object_or_404(Movie, id=movie_id)
+#     if request.method == 'POST':
+#         form = MovieForm(request.POST, request.FILES, instance=movie)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('review_home')
+#     else:
+#         form = MovieForm(instance=movie)
+#     return render(request, 'edit_movie.html', {'form': form, 'movie': movie})

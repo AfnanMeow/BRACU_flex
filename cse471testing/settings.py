@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'module1',  # Add this line
+    'module1',
+    'module2',
+    'module3', 
     'social_django',  # For Google OAuth
     "django.contrib.sites",
     "allauth",
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
 ]
+
 LOGIN_URL = '/login/'
 LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = '/'

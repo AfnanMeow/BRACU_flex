@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -16,19 +17,27 @@
     <p>IP Address: {{ user.ip_address }}</p>
     <a href="{% url 'logout' %}">Logout</a>
 
+    <!-- Navigation Buttons -->
+    <h2>Navigate to:</h2>
+    <div>
+        <a href="{% url 'movie_home' %}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Movies</a>
+        <a href="{% url 'review_home' %}" style="padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Reviews</a>
+        <a href="/admin/" style="padding: 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Admin Panel</a>
+        <a href="{% url 'show_added_friends' %}" style="padding: 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 5px;">Friends List</a>
+        <a href="{% url 'add_movie' %}" style="padding: 10px; background-color: #ffc107; color: white; text-decoration: none; border-radius: 5px;">Add Movie</a>
+        <a href="{% url 'edit_movie' movie_id=1 %}" style="padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">Edit Movie</a>
+    </div>
+
     <!-- Video Player -->
     <h2>Video Gallery</h2>
     {% for video in videos %}
     <div class="video-container">
-        
         <video id="videoPlayer" width="800" controls>
             <source src="{{ video.file.url }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <h3>{{ video.title }}</h3>
-        
     </div>
-    
 
     <!-- Video Controls -->
     <div class="controls">
@@ -40,9 +49,6 @@
     {% empty %}
     <p>No videos found.</p>
     {% endfor %}
-    
-    
-
 
     <!-- Hidden Input to Track Watch Time -->
     <input type="hidden" id="userWatchTime" value="{{ user.watching_hour }}">
@@ -50,8 +56,3 @@
     <script src="{% static 'home/js/player.js' %}"></script>
 </body>
 </html>
-<script src="{% static 'home/js/player.js' %}"></script>
-<script>
-    console.log("JavaScript is loaded correctly!");
-</script>
-
