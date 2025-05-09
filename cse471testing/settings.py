@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'module1',  
+    'module1',
     'module2',
     'module3',
     'social_django',  # For Google OAuth
@@ -81,7 +81,7 @@ ROOT_URLCONF = 'cse471testing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "module1/templates", BASE_DIR / "module2/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,9 +144,9 @@ USE_TZ = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'App': {
-            'client_id':'128832672-r6kidbi2cm04r0u9plnmdmse4leeglsh.apps.googleusercontent.com',
-            'secrect':'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',
-            'key':''
+            'client_id': '128832672-r6kidbi2cm04r0u9plnmdmse4leeglsh.apps.googleusercontent.com',
+            'secrect': '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',
+            'key': ''
         }
     }
 }
