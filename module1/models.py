@@ -84,16 +84,6 @@ class UserSubscription(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.plan.name}"
 
-    
-
-class UserSubscription(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True)
-    subscribed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.plan.name}"
-
 
 
 

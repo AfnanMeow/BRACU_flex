@@ -52,10 +52,10 @@ def public_videos(request):
 
 def search_videos(request):
     query = request.GET.get('q', '')
-    videos = UploadedVideo.objects.filter(
-        Q(title__icontains=query) | 
-        Q(user__username__icontains=query) | 
-        Q(video_file__icontains=query)  # Search in the file name
+    videos = Video.objects.filter(
+        Q(title__icontains=query) #| 
+        #Q(user__username__icontains=query) | 
+        #Q(video_file__icontains=query)  # Search in the file name
     ) if query else []
     return render(request, 'search_results.html', {'videos': videos, 'query': query})
 @login_required

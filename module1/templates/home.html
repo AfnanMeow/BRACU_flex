@@ -23,6 +23,17 @@
                     </a>
                 </div>
                 <nav class="main-nav">
+                    {% if user.is_superuser %}
+                    <!-- Navigation Buttons -->
+    <h2>Navigate to:</h2>
+    <div>
+        <a href="{% url 'movie_home' %}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Movies</a>
+        <a href="{% url 'review_home' %}" style="padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Reviews</a>
+        <a href="/admin/" style="padding: 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Admin Panel</a>
+        <a href="{% url 'show_added_friends' %}" style="padding: 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 5px;">Friends List</a>
+        <a href="{% url 'add_movie' %}" style="padding: 10px; background-color: #ffc107; color: white; text-decoration: none; border-radius: 5px;">Add Movie</a>
+        <a href="{% url 'edit_movie' movie_id=1 %}" style="padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">Edit Movie</a>
+    </div> {% else %}
                     <ul>
                         <li class="active"><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="#">TV Shows</a></li>
@@ -34,7 +45,7 @@
                         <li><a href="{% url 'watchlist' %}" class="btn btn-primary">📺 Watchlist</a></li>
 
                     </ul>
-                </nav>
+                </nav>{% endif %}
             </div>
 
                 <div class="secondary-navigation">
@@ -461,7 +472,7 @@
         <div class="video-container">
             <div class="video-wrapper">
                 <video id="videoPlayer{{ forloop.counter }}" controls data-id="{{ video.id }}">
-                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                    <source src="{{ video.file.url }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -475,7 +486,7 @@
     {% endif %}
 
     <!-- Navigation Buttons -->
-    <h2>Navigate to:</h2>
+    <!--<h2>Navigate to:</h2>
     <div>
         <a href="{% url 'movie_home' %}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Movies</a>
         <a href="{% url 'review_home' %}" style="padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Reviews</a>
@@ -483,7 +494,7 @@
         <a href="{% url 'show_added_friends' %}" style="padding: 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 5px;">Friends List</a>
         <a href="{% url 'add_movie' %}" style="padding: 10px; background-color: #ffc107; color: white; text-decoration: none; border-radius: 5px;">Add Movie</a>
         <a href="{% url 'edit_movie' movie_id=1 %}" style="padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">Edit Movie</a>
-    </div>
+    </div>-->
 
     <!-- Video Player -->
     <h2>Video Gallery</h2>
@@ -547,7 +558,7 @@
     <p>No videos found.</p>
     {% endfor %}
 
-   
+    <!-- Hidden Input to Track Watch Time -->
     <input type="hidden" id="userWatchTime" value="{{ user.watching_hour }}">
     
     <script src="{% static 'home/js/player.js' %}"></script>
@@ -566,3 +577,7 @@
     </script>
 </body>
 </html>
+<script src="{% static 'home/js/player.js' %}"></script>
+<script>
+    console.log("JavaScript is loaded correctly!");
+</script>

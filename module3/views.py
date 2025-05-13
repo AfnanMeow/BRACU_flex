@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .models import Friendship, ViewedContent
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from .forms import AddFriendForm
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -22,8 +22,13 @@ from django.contrib.auth import get_user_model
 def shared_video(request, token):
     #video = get_object_or_404(UploadedVideo, share_token=token)
     video = get_object_or_404(Video, share_token=token)
-    print(video.title, video.share_token, "kuttaaaaaaaa")
-    return render(request, 'shared_video.html', {'video': video})
+    print(video.title, video.share_token, "Mewaaaaaaaa")
+    shareable_url = request.build_absolute_uri()  # Gets full URL
+
+    return render(request, 'shared_video.html', {
+        'video': video,
+        'shareable_url': shareable_url
+    })
 
 
 
