@@ -15,6 +15,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Movie',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=255)),
+                ('description', models.TextField()),
+                ('genre', models.CharField(max_length=100)),
+                ('release_date', models.DateField()),
+            ],
+        ),
+        migrations.CreateModel(
             name='UploadedVideo',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

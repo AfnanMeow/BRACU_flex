@@ -1,0 +1,66 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Who's Watching?</title>
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'netflix_clone/css/profile.css' %}">
+    <link rel="icon" href="{% static 'netflix_clone/images/favicon.ico' %}" type="image/x-icon">
+</head>
+<body class="profile-page">
+    <header class="header header-profile">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="{% static 'netflix_clone/images/netflix-logo.svg' %}" alt="Netflix">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-selection">
+            <h1>Who's watching?</h1>
+
+            <div class="profiles-list">
+                <div class="profile">
+                    <a href="browse.html" class="profile-link">
+                        <div class="profile-avatar profile-avatar-1"></div>
+                        <span class="profile-name">John</span>
+                    </a>
+                </div>
+
+                <div class="profile">
+                    <a href="browse.html" class="profile-link">
+                        <div class="profile-avatar profile-avatar-2"></div>
+                        <span class="profile-name">Sarah</span>
+                    </a>
+                </div>
+
+                <div class="profile">
+                    <a href="browse.html" class="profile-link">
+                        <div class="profile-avatar profile-avatar-3"></div>
+                        <span class="profile-name">Kids</span>
+                    </a>
+                </div>
+
+                <div class="profile profile-add">
+                    <a href="#" class="profile-link">
+                        <div class="profile-add-icon">+</div>
+                        <span class="profile-name">Add Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <button class="btn btn-manage-profiles">Manage Profiles</button>
+        </div>
+    </main>
+
+    <script src="{% static 'netflix_clone/js/main.js' %}"></script>
+</body>
+</html>

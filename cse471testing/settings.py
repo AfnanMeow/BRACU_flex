@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5-jc%e*qmnp&19pnga(17x!jjw=t44)&vhm$j4ahb=op-l28vz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["26.84.216.199", "localhost"]
 AUTH_USER_MODEL = 'module1.CustomUser'
 
 AUTHENTICATION_BACKENDS = (
@@ -36,7 +36,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/choose_profiles/'
 SOCIAL_AUTH_USER_MODEL = 'module1.CustomUser'
 
 
@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'module1',  # Add this line
+    'module1',
+    'module2',
+    'module3',
     'social_django',  # For Google OAuth
     "django.contrib.sites",
     "allauth",
@@ -57,10 +59,11 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
 ]
+
 LOGIN_URL = '/login/'
 LOGOUT_URL = "/logout/"
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_REDIRECT_URL = '/home/'
+LOGOUT_REDIRECT_URL = '/choose_profiles/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+    'cse471testing.middleware.ActiveProfileMiddleware',
 ]
 
 
@@ -79,7 +83,7 @@ ROOT_URLCONF = 'cse471testing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "module1/templates", BASE_DIR / "module2/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,9 +146,9 @@ USE_TZ = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'App': {
-            'client_id':'128832672-r6kidbi2cm04r0u9plnmdmse4leeglsh.apps.googleusercontent.com',
-            'secrect':'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',
-            'key':''
+            'client_id': '128832672-r6kidbi2cm04r0u9plnmdmse4leeglsh.apps.googleusercontent.com',
+            'secrect': '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',
+            'key': ''
         }
     }
 }

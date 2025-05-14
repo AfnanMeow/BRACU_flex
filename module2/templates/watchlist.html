@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Watchlist</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: #fff;
+            background-color: #e50914;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .watchlist-container {
+            padding: 30px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .remove-link {
+            text-decoration: none;
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        .empty-message {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>📺 My Watchlist</h2>
+        <a href="{% url 'home' %}" class="back-home">← Home</a>
+    </header>
+
+    <div class="watchlist-container">
+        {% if items %}
+            <div class="video-grid">
+                {% for item in items %}
+                    <div class="video-card">
+                        <h3>{{ item.video.title }}</h3>
+                        <a href="{% url 'remove_from_watchlist' item.video.id %}" class="remove-link">Remove</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Your watchlist is empty.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

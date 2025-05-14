@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+{% if videos %} {% for video in videos %}
+<div class="video-container">
+	<video
+		id="videoPlayer{{ forloop.counter }}"
+		width="800"
+		controls
+		data-id="{{ video.id }}"
+	>
+		<!--<source src="{{ video.video_file.url }}" type="video/mp4" />-->
+		<source src="{{ video.file.url }}" type="video/mp4" />
+		Your browser does not support the video tag.
+	</video>
+	<h3>{{ video.title }}</h3>
+	<p>Uploaded by: {{ video.user.username }}</p>
+</div>
+{% endfor %} {% else %}
+<p>No videos found for your search.</p>
+{% endif %} {% endblock %}

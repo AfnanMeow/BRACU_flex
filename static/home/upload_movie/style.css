@@ -1,0 +1,145 @@
+/* Netflix Inspired Upload Page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #141414;
+    color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+}
+
+.upload-card {
+    background-color: #1c1c1c;
+    border: 1px solid #e50914;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.2);
+}
+
+.upload-card h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #e50914;
+    margin-bottom: 25px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.upload-form p {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-form label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.upload-form input[type="text"],
+.upload-form input[type="file"],
+.upload-form select {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.upload-form input::file-selector-button {
+    background-color: #e50914;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.upload-form input::file-selector-button:hover {
+    background-color: #ff1e22;
+}
+
+.upload-form button {
+    padding: 12px;
+    background-color: #e50914;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.upload-form button:hover {
+    background-color: #ff1e22;
+}
+
+
+
+.switch-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+/* Switch toggle style */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #e50914;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}

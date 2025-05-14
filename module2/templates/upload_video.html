@@ -1,6 +1,37 @@
-<h2>Upload a Video</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Upload</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Your Movie | Netflix</title>
+    <link rel="stylesheet" href="{% static 'home/upload_movie/style.css' %}">
+</head>
+<body>
+    <div class="upload-container">
+        <div class="upload-card">
+            <h2>Upload Your Movie</h2>
+            <form method="post" enctype="multipart/form-data" class="upload-form">
+                {% csrf_token %}
+                <p>
+                  {{ form.title.label_tag }}<br>
+                  {{ form.title }}
+              </p>
+              
+              <p>
+                  {{ form.video_file.label_tag }}<br>
+                  {{ form.video_file }}
+              </p>
+              
+              <p class="switch-group">
+                  <label class="switch-label" for="id_is_public">Public</label>
+                  <label class="switch">
+                      <input type="checkbox" name="is_public" id="id_is_public" {% if form.is_public.value %}checked{% endif %}>
+                      <span class="slider round"></span>
+                  </label>
+              </p>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

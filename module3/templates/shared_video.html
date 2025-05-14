@@ -1,0 +1,86 @@
+<html>
+    <body>
+        
+<h2>Shared Video</h2>
+<video width="640" height="360" controls>
+    <source src="{{ video.file.url }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+
+<div id="share-banner" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #af4c4c;
+    color: rgb(2, 0, 0);
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+">
+    Your shareable link is: 
+    <span id="share-link">{{ shareable_url }}</span>
+    <button onclick="copyLink()" style="
+        margin-left: 10px;
+        background-color: rgb(10, 10, 10);
+        color: #af4c4c;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    ">Copy</button>
+</div>
+
+
+<!--{% if user.id %}-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const banner = document.getElementById('share-banner');
+        banner.style.display = 'block';
+
+        // Optional: auto hide after 10 seconds
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 10000);
+    });
+
+    function copyLink() {
+        const linkText = document.getElementById("share-link").innerText;
+        navigator.clipboard.writeText(linkText).then(() => {
+            alert("Copied to clipboard!");
+        }).catch(err => {
+            alert("Failed to copy: " + err);
+        });
+    }
+  </script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareLink = "{{ shareable_url }}";
+
+        // Ask for notification permission
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+
+        // Show the notification
+        if (Notification.permission === 'granted') {
+            new Notification("Shareable Link", {
+                body: `Your shareable link is: ${shareLink}`,
+                icon: "/static/icons/share.png"  // Optional icon
+            });
+        }
+
+        // Optional: copy to clipboard
+        navigator.clipboard.writeText(shareLink).then(() => {
+            console.log("Copied to clipboard: " + shareLink);
+        }).catch(err => {
+            console.error("Clipboard error: ", err);
+        });
+    });
+</script>
+</html>
