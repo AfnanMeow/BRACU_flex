@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5-jc%e*qmnp&19pnga(17x!jjw=t44)&vhm$j4ahb=op-l28vz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["26.84.216.199", "localhost"]
+ALLOWED_HOSTS = ["26.84.216.199", "localhost", "bracu-flex.onrender.com"]
 AUTH_USER_MODEL = 'module1.CustomUser'
 
 AUTHENTICATION_BACKENDS = (
