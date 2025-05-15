@@ -1,0 +1,188 @@
+/* Netflix Profile Selection Styles */
+
+.profile-page {
+    background-color: var(--netflix-black);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-profile {
+    padding: 20px 0;
+}
+
+.profile-selection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    margin-top: -50px;
+}
+
+.profile-selection h1 {
+    font-size: 3.5vw;
+    font-weight: 500;
+    color: var(--netflix-white);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.profiles-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 80%;
+    margin: 0 auto 60px;
+}
+
+.profile {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.profile:hover {
+    transform: scale(1.1);
+}
+
+.profile:not(:hover) {
+    filter: brightness(0.6);
+}
+
+.profile-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.profile:hover .profile-avatar {
+    border-color: var(--netflix-white);
+}
+
+.profile-avatar-1 {
+    background-image: url('https://occ-0-3212-3647.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4');
+}
+
+.profile-avatar-2 {
+    background-image: url('https://occ-0-3212-3647.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdi6oYb6DJb1LndQWckgaXvrqqP3QURNa8Xngiq7wwFwDtWIg1otEuYKVxbYwS9c5clgJGDK_7f4PZP8-fMxgGq-FmI.png?r=5cf');
+}
+
+.profile-avatar-3 {
+    background-image: url('https://occ-0-3212-3647.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQbxlN7iogj0G0qJA_4-zXDlZx9CBzBXfglJbGM_e3ONKY1ikfnjM93zVRr10jQ_1gEDXjIWImIwGLc0zvG5GGu-GtY.png?r=cad');
+}
+
+.profile-name {
+    color: var(--netflix-light-gray);
+    font-size: 1.25rem;
+    transition: color 0.3s;
+}
+
+.profile:hover .profile-name {
+    color: var(--netflix-white);
+}
+
+.profile-add .profile-add-icon {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: var(--netflix-light-gray);
+    border: 3px solid transparent;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.profile-add:hover .profile-add-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--netflix-white);
+    border-color: var(--netflix-white);
+}
+
+.btn-manage-profiles {
+    background-color: transparent;
+    border: 1px solid var(--netflix-light-gray);
+    color: var(--netflix-light-gray);
+    padding: 8px 26px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    transition: all 0.3s;
+}
+
+.btn-manage-profiles:hover {
+    border-color: var(--netflix-white);
+    color: var(--netflix-white);
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .profile-selection h1 {
+        font-size: 5vw;
+    }
+
+    .profile-avatar, .profile-add .profile-add-icon {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-selection h1 {
+        font-size: 6vw;
+    }
+
+    .profile-avatar, .profile-add .profile-add-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-selection h1 {
+        font-size: 8vw;
+    }
+
+    .profiles-list {
+        gap: 20px;
+    }
+
+    .profile-avatar, .profile-add .profile-add-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-add .profile-add-icon {
+        font-size: 3rem;
+    }
+
+    .profile-name {
+        font-size: 1rem;
+    }
+
+    .btn-manage-profiles {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
